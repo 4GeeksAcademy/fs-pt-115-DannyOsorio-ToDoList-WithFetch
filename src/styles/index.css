@@ -10,14 +10,27 @@
 
 */
 
-ul li{
+ul li {
     border: 1px solid red;
     padding: 5px;
     list-style: none;
 }
 
-input{
+input {
     border: none;
     width: 100%;
     text-align: center;
+}
+
+.tarea-item {
+    position: relative;
+}
+
+.delete-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.tarea-item:hover .delete-btn {
+    opacity: 1;
 }
