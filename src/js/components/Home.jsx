@@ -17,6 +17,14 @@ const Home = () => {
 		setTodo(todo.filter((_, index) => index !== indexToDelete));
 	};
 
+	const getTodo = async () => {
+		const response = await fetch("https://playground.4geeks.com/todo/users/danny_osorio");
+		console.log(response);
+		const data = await response.json();
+		console.log(data);
+	};	
+	getTodo();
+
 	return (
 		<div className="container text-center">
 			<h1 className="m-5">TO DO LIST</h1>
@@ -37,7 +45,7 @@ const Home = () => {
 				{todo.map((item, index) => (
 					<li
 						key={index}
-						className="list-group-item d-flex justify-content-beetween align-items-center tarea-item"
+						className="list-group-item d-flex justify-content-between align-items-center tarea-item"
 					>
 						<span>{item}</span>
 						<button
@@ -52,7 +60,11 @@ const Home = () => {
 			</ul>
 			<div>{todo.length} Tareas Pendientes</div>
 		</div>
+
+		
 	);
 };
+
+
 
 export default Home;
