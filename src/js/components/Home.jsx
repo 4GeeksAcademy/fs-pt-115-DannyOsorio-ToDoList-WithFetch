@@ -1,8 +1,5 @@
 import React from "react";
-import { useState } from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import { useState, useEffect } from "react";
 
 //create your first component
 
@@ -17,13 +14,73 @@ const Home = () => {
 		setTodo(todo.filter((_, index) => index !== indexToDelete));
 	};
 
-	const getTodo = async () => {
-		const response = await fetch("https://playground.4geeks.com/todo/users/danny_osorio");
-		console.log(response);
-		const data = await response.json();
-		console.log(data);
-	};	
-	getTodo();
+	const createUser = async () => {
+		try {
+			const newUser = await fetch('https://playground.4geeks.com/todo/users/danny', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+			});
+
+			const user = await newUser.json();
+			console.log(newUser);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+
+
+
+	const getUser = async () => {
+		try {
+			const request = await fetch('https://playground.4geeks.com/todo/users/danny', {
+				method: "GET",
+				headers: {
+					'Accept': 'application/json'
+				}
+			});
+
+			const response = await request.json();
+			console.log(response);
+
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+
+	const createTodo = async () => {
+		try {
+			const postTodo = await fetch('https://playground.4geeks.com/todo/todos/danny', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					label: todo,
+					is_done: false
+				})
+			});
+			const respuesta = await postTodo.json();
+			setTodo(prevTodo => [...prevTodo, respuesta]);
+		} catch (error) {
+			console.log(error);
+		}
+
+	};
+
+	useEffect(() => {
+		createUser();
+		getUser()
+		createTodo();
+	}, []);
+
+
+
 
 	return (
 		<div className="container text-center">
@@ -40,7 +97,7 @@ const Home = () => {
 						};
 					}}
 					placeholder="Tarea Pendiente..." /> </li>
-					
+
 
 				{todo.map((item, index) => (
 					<li
@@ -61,7 +118,7 @@ const Home = () => {
 			<div>{todo.length} Tareas Pendientes</div>
 		</div>
 
-		
+
 	);
 };
 
